@@ -1,0 +1,19 @@
+{
+  "name": "medicamentos-api",
+  "version": "1.0.0",
+  "description": "api que gere informações sobre medicamentos para sites",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch src/app.js",
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paulo Anderson Gonçalves de Lima",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "routes": "^2.1.0",
+    "sequelize": "^6.37.7"
+  }
+}

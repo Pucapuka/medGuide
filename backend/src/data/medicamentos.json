@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "nome": "Tylenol",
+        "principioAtivo": "Paracetamol",
+        "descricao": "Analgésico e antipirético utilizado para aliviar dores leves a moderdas e reduzir febre.",
+        "categoria": "Analgésicos",
+        "formaFarmaceutica": "Comprimidos",
+        "dose": "500mg",
+        "modoDeUso": "Tomar 1 comprimido a cada 6 horas, não excedendo 4 comprimidos por dia.",
+        "contraindicacoes": "Hipersensibilidade ao paracetamol, doença hepática grave.",
+        "efeitosAdversos": "Náuseas, vômitos, reações alérgicas.",
+        "interacoesMedicamentosas": "Pode interagir com anticoagulantes orais e outros medicamentos que afetam o fígado.",
+        "marcasDisponiveis": ["Tylenol","Tyflen", "Tylemax", "Paramol"]
+    },
+    {
+        "id": 2,
+        "nome": "Alivium",
+        "principioAtivo": "Ibuprofeno",
+        "descricao": "Anti-inflamatório não esteroidal (AINE) utilizado para aliviar dores, reduzir inflamações e febre.",
+        "categoria": "Anti-inflamatórios",
+        "formaFarmaceutica": "Comprimidos",
+        "dose": "400mg",
+        "modoDeUso": "Tomar 1 comprimido a cada 8 horas, não excedendo 3 comprimidos por dia.",
+        "contraindicacoes": "Hipersensibilidade ao ibuprofeno, úlcera gástrica ativa, insuficiência renal grave.",
+        "efeitosAdversos": "Dor abdominal, náuseas, tontura.",
+        "interacoesMedicamentosas": "Pode interagir com anticoagulantes, outros AINEs e corticosteroides.",
+        "marcasDisponiveis": ["Alivium", "Ibuflex", "Ibupril", "Pralivio", "Buscofem"]
+    },
+    {
+        "id": 3,
+        "nome": "Amoxil",
+        "principioAtivo": "Amoxicilina",
+        "descricao": "Antibiótico da classe das penicilinas utilizado para tratar infecções bacterianas.",
+        "categoria": "Antibióticos",
+        "formaFarmaceutica": "Cápsulas",
+        "dose": "500mg",
+        "modoDeUso": "Tomar 1 cápsula a cada 8 horas, conforme prescrição médica.",
+        "contraindicacoes": "Hipersensibilidade à amoxicilina ou outras penicilinas.",
+        "efeitosAdversos": "Diarreia, náuseas, erupções cutâneas.",
+        "interacoesMedicamentosas": "Pode interagir com alopurinol e anticoagulantes orais.",
+        "marcasDisponiveis": ["Amoxil", "Velamox", "Amoxilina", "Amoximed", "Amoxiflex"]
+    }
+]
