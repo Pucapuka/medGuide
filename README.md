@@ -145,7 +145,7 @@ Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 **Paulo Anderson Lima**  
 📧 solucoes.magic.ti@gmail.com  
-🔗 [Projeto no GitHub](https://github.com/seu-usuario/medguide)
+🔗 [Projeto no GitHub](https://github.com/Pucapuka/medGuide)
 
 ---
 
