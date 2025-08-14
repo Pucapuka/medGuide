@@ -1,7 +1,10 @@
-import { Box, Container, Grid, Link, Typography } from '@mui/material';
-import { Facebook, Twitter, Instagram, LinkedIn, GitHub } from '@mui/icons-material';
+import { Box, Container, Grid, Link, Typography, useTheme, useMediaQuery } from '@mui/material';
+import { Facebook, Instagram, LinkedIn, GitHub } from '@mui/icons-material';
 
 export default function Footer() {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <Box 
       component="footer"
@@ -9,27 +12,51 @@ export default function Footer() {
         backgroundColor: 'primary.main',
         color: 'white',
         py: 4,
-        mt: 'auto', // Para fixar no rodapé quando há pouco conteúdo
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
+        mt: 'auto',
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4} display="flex" justifyContent="space-between">
+        <Grid 
+          container 
+          spacing={20}
+          sx={{
+            display: 'flex',
+            flexDirection: isSmallScreen ? 'column' : 'row',
+            alignItems: isSmallScreen ? 'center' : 'flex-start',
+            textAlign: isSmallScreen ? 'center' : 'left'
+          }}
+        >
           {/* Seção Contato */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid 
+            item 
+            xs={12} 
+            md={4}
+            sx={{
+              flex: 1,
+              minWidth: 0 // Evita quebra de linha
+            }}
+          >
             <Typography variant="h6" gutterBottom>
               Contato
             </Typography>
-            <Typography>Email: solucoes.magic.ti@gmail.com</Typography>
-            <Typography>Telefone: (99) 98408-0173</Typography>
-            <Typography>Endereço: Av. Getúlio Vargas, Centro. Imperatriz-MA</Typography>
+            <Typography><strong>Email:</strong> solucoes.magic.ti@gmail.com</Typography>
+            <Typography><strong>Telefone:</strong> (99) 98408-0173</Typography>
+            <Typography><strong>Endereço:</strong> Av. Getúlio Vargas, Centro. Imperatriz-MA</Typography>
           </Grid>
 
           {/* Seção Redes Sociais */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid 
+            item 
+            xs={12} 
+            md={4}
+            sx={{
+              flex: 1,
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: isSmallScreen ? 'center' : 'flex-start'
+            }}
+          >
             <Typography variant="h6" gutterBottom>
               Redes Sociais
             </Typography>
@@ -50,18 +77,25 @@ export default function Footer() {
           </Grid>
 
           {/* Seção Newsletter */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid 
+            item 
+            xs={12} 
+            md={4}
+            sx={{
+              flex: 1,
+              minWidth: 0
+            }}
+          >
             <Typography variant="h6" gutterBottom>
-              Newsletter
+              Sugestões
             </Typography>
             <Typography>
-              Assine para receber dicas de saúde
+              Entre em contato conosco para sugestões, dúvidas ou feedback sobre o MedGuide.
             </Typography>
-            {/* Aqui você pode adicionar um formulário de newsletter */}
           </Grid>
         </Grid>
 
-        {/* Copyright */}
+        {/* Copyright - mantido abaixo */}
         <Box sx={{ pt: 4, textAlign: 'center' }}>
           <Typography variant="body2">
             © {new Date().getFullYear()} MedGuide - Todos os direitos reservados

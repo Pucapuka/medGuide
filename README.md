@@ -30,7 +30,8 @@ Este sistema foi criado como projeto final de curso, alinhado com os Objetivos d
 
 - [Node.js](https://nodejs.org/)
 - [Express](https://expressjs.com/)
-- **Sistema de armazenamento em JSON** (banco de dados em memória)
+- [PostgreSQL](https://www.postgresql.org/) (armazenamento dos dados)
+- [psql](https://www.postgresql.org/docs/current/app-psql.html) (cliente de linha de comando para PostgreSQL)
 
 ---
 
@@ -40,6 +41,8 @@ Este sistema foi criado como projeto final de curso, alinhado com os Objetivos d
 
 - [Node.js](https://nodejs.org/) (v16 ou superior)
 - [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
+- [PostgreSQL](https://www.postgresql.org/) instalado e rodando
+- [psql](https://www.postgresql.org/docs/current/app-psql.html) disponível no terminal
 
 ### Instalação
 
@@ -50,14 +53,44 @@ git clone https://github.com/seu-usuario/medguide.git
 cd medguide
 ```
 
-Instale as dependências do backend:
+#### Configuração do Banco de Dados
+
+1. Crie um banco de dados PostgreSQL:
+
+```bash
+psql -U seu_usuario_postgres
+CREATE DATABASE medguide;
+\c medguide
+```
+
+2. Execute o script de criação das tabelas e inserção dos dados iniciais:
+
+```bash
+psql -U seu_usuario_postgres -d medguide -f backend/src/database/schema.sql
+psql -U seu_usuario_postgres -d medguide -f backend/src/database/seed.sql
+```
+
+> **Dica:** Altere `seu_usuario_postgres` para o usuário do seu PostgreSQL.
+
+3. Configure as variáveis de ambiente do backend (crie um arquivo `.env` em `backend/`):
+
+```env
+# backend/.env
+PGUSER=seu_usuario_postgres
+PGPASSWORD=sua_senha
+PGHOST=localhost
+PGPORT=5432
+PGDATABASE=medguide
+```
+
+#### Instale as dependências do backend:
 
 ```bash
 cd backend
 npm install
 ```
 
-Instale as dependências do frontend:
+#### Instale as dependências do frontend:
 
 ```bash
 cd ../frontend
@@ -95,9 +128,9 @@ medGuide/
 ├── backend/
 │   └── src/
 │       ├── controllers/       # Lógica dos endpoints
-│       ├── data/              # Dados de teste
+│       ├── database/          # Scripts SQL e dados
 │       ├── routes/            # Definição das rotas
-│       ├── utils/             # Utilitários (store JSON)
+│       ├── utils/             # Utilitários
 │       ├── app.js             # Configuração do Express
 │       └── server.js          # Ponto de entrada do servidor
 ├── frontend/
@@ -130,7 +163,7 @@ medGuide/
 | GET    | `/categories/:categoria`       | Lista medicamentos por categoria          |
 | GET    | `/interactions`                | Lista medicamentos com interações         |
 
-> **Observação:** Nem todos os endpoints são utilizados no frontend, mas estão disponíveis para futuras ampliações.
+> **Observação:** Nem todos os endpoints são utilizados no frontend, mas estão disponíveis para futuras ampliações. Como o propósito desse projeto foi desenvolver estruturas para um site de consulta, não faz sentido incluir um post no frontend, mas caso queira fazer no estilo wikipedia, o backend está pronto, apenas adicione e integre as funcionalidades com o front.
 
 ---
 

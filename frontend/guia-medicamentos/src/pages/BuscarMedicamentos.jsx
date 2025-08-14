@@ -12,11 +12,7 @@ import {
   Divider,
   CircularProgress,
   IconButton,
-  Alert,
-  Snackbar,
-  FormControlLabel,
-  FormControl,
-  FormLabel
+  Alert
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,9 +25,6 @@ export default function BuscarMedicamentos() {
   const [categorias, setCategorias] = useState([]);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [tipoBusca, setTipoBusca] = useState('nome');
 
   // Carrega categorias ao iniciar
   useEffect(() => {
@@ -40,90 +33,59 @@ export default function BuscarMedicamentos() {
         const response = await api.get('/categories');
         setCategorias(response.data);
       } catch (err) {
-        handleError('Erro ao carregar categorias', err);
+        console.error('Erro ao carregar categorias', err);
       }
     };
     carregarCategorias();
   }, []);
 
-   // Busca medicamentos
+  // Busca medicamentos
   const buscarMedicamentos = useCallback(async () => {
     try {
       setLoading(true);
-      setError(null);
       
       let response;
-      let params = {};
+      const params = {};
 
-      // Define o parâmetro de busca conforme o tipo selecionado
       if (searchTerm) {
-        if (tipoBusca === 'nome') {
-          params = { nome: searchTerm };
-          response = await api.get('/medicamentos/search', { params });
-        } else if (tipoBusca === 'principioAtivo') {
-          params = { principioAtivo: searchTerm };
-          response = await api.get('/medicamentos/searchByActivePrinciple', { params });
-        }
-      } else if (categoriaSelecionada) {
-        response = await api.get(`/categories/${categoriaSelecionada}`);
-      } else {
-        // Busca todos se não houver critério
-        response = await api.get('/medicamentos');
+        params.termo = searchTerm;
       }
 
-      // Trata a resposta
-      if (response.status === 404) {
-        setMedicamentos([]);
-      } else if (Array.isArray(response.data)) {
-        setMedicamentos(response.data);
-      } else if (response.data) {
-        setMedicamentos([response.data]);
-      } else {
-        setMedicamentos([]);
+      if (categoriaSelecionada) {
+        params.categoria = categoriaSelecionada;
       }
+
+      response = await api.get('/medicamentos/search', { params });
+
+      setMedicamentos(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
-      handleError('Erro ao buscar medicamentos', err);
+      console.error('Erro ao buscar medicamentos', err);
+      setMedicamentos([]);
     } finally {
       setLoading(false);
     }
-  }, [searchTerm, categoriaSelecionada, tipoBusca]);
+  }, [searchTerm, categoriaSelecionada]);
 
   // Busca automática com debounce
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (searchTerm || categoriaSelecionada) {
-        buscarMedicamentos();
-      } else {
-        // Se não há termo nem categoria, carrega todos
-        buscarMedicamentos();
-      }
+      buscarMedicamentos();
     }, 500);
     
     return () => clearTimeout(timer);
   }, [searchTerm, categoriaSelecionada, buscarMedicamentos]);
-
-  const handleError = (message, error) => {
-    console.error(message, error);
-    setError(error.response?.data?.message || message);
-    setSnackbarOpen(true);
-    setMedicamentos([]);
-  };
 
   const handleClearSearch = () => {
     setSearchTerm('');
     setCategoriaSelecionada('');
   };
 
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
-
   const renderDetalhesMedicamento = (medicamento) => (
     <Box sx={{ width: '100%' }}>
-      {medicamento.principioAtivo && (
+      {medicamento.principio_ativo && (
         <>
           <Typography variant="subtitle1" fontWeight="bold">Princípio Ativo</Typography>
-          <Typography paragraph>{medicamento.principioAtivo}</Typography>
+          <Typography paragraph>{medicamento.principio_ativo}</Typography>
           <Divider sx={{ my: 2 }} />
         </>
       )}
@@ -136,18 +98,18 @@ export default function BuscarMedicamentos() {
         </>
       )}
       
-      {medicamento.formaFarmaceutica && (
+      {medicamento.forma_farmaceutica && (
         <>
           <Typography variant="subtitle1" fontWeight="bold">Forma Farmacêutica</Typography>
-          <Typography paragraph>{medicamento.formaFarmaceutica}</Typography>
+          <Typography paragraph>{medicamento.forma_farmaceutica}</Typography>
           <Divider sx={{ my: 2 }} />
         </>
       )}
       
-      {medicamento.interacoesMedicamentosas && (
+      {medicamento.interacoes_medicamentosas && (
         <>
           <Typography variant="subtitle1" fontWeight="bold">Interações Medicamentosas</Typography>
-          <Typography paragraph>{medicamento.interacoesMedicamentosas}</Typography>
+          <Typography paragraph>{medicamento.interacoes_medicamentosas}</Typography>
         </>
       )}
     </Box>
@@ -164,7 +126,7 @@ export default function BuscarMedicamentos() {
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Digite o nome do medicamento"
+          placeholder="Digite o nome ou princípio ativo"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           InputProps={{
@@ -243,22 +205,6 @@ export default function BuscarMedicamentos() {
           {categoriaSelecionada && ` na categoria "${categoriaSelecionada}"`}
         </Alert>
       )}
-
-      {/* Snackbar para erros
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={handleCloseSnackbar} 
-          severity="error"
-          sx={{ width: '100%' }}
-        >
-          {error}
-        </Alert>
-      </Snackbar> */}
     </Container>
   );
 }
